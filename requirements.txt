@@ -1,0 +1,11 @@
+# python==3.8
+# conda install pytorch==1.12.0 torchvision==0.13.0 cudatoolkit=10.2 -c pytorch
+torch==1.13
+torchvision==0.14
+scikit-learn
+pandas
+opencv-python
+scipy
+tqdm
+matplotlib
+pyyaml
