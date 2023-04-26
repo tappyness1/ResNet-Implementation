@@ -3,11 +3,13 @@ import numpy as np
 import torch.nn as nn
 import torch
 
+def forward_layer(out, conv_list):
+    for conv in conv_list:    
+        out = conv(out)
+    return out
 
 class IdentityBlock(nn.Module):
-
-    # TODO: make 3 layers for the id block
-    
+        
     def __init__(self, in_channels= 3, out_channels = [64, 64], conv = False):
         super().__init__()
 
@@ -16,6 +18,10 @@ class IdentityBlock(nn.Module):
         conv == False -> conv1 will have stride = 1, kernel_size = 3, padding is same
         """
         assert len(out_channels) in [2,3], "Can only have 2 or 3 depth in id block"
+        if len(out_channels) == 3:
+            self.bottleneck = True
+        else: self.bottleneck = False
+
         self.last_filter_channel = out_channels[-1]
         self.conv = conv
 
@@ -23,6 +29,9 @@ class IdentityBlock(nn.Module):
 
             self.conv1 = Conv2d(in_channels=in_channels, out_channels = out_channels[0], kernel_size = 1, stride = 2, padding='valid', bias = False)
             # if our kernel_size != 1, then padding has to be set to "same" because you don't have to deal with dimension change issues
+        elif self.bottleneck:
+            self.conv1 = Conv2d(in_channels=in_channels, out_channels = out_channels[0], kernel_size = 1, stride = 1, padding='same', bias = False)
+       
         else: 
             self.conv1 = Conv2d(in_channels=in_channels, out_channels = out_channels[0], kernel_size = 3, stride = 1, padding='same', bias = False)
         
@@ -30,6 +39,11 @@ class IdentityBlock(nn.Module):
 
         self.conv2 = Conv2d(in_channels= out_channels[0], out_channels = out_channels[1], kernel_size= 3, stride = 1, padding = 'same', bias = False)
         self.batchnorm2 = BatchNorm2d(num_features=out_channels[1])
+
+        if self.bottleneck:
+            self.conv3 = Conv2d(in_channels= out_channels[1], out_channels = out_channels[2], kernel_size= 1, stride = 1, padding = 'same', bias = False)
+            self.batchnorm3 = BatchNorm2d(num_features=out_channels[2])
+
         self.relu = ReLU()
 
     def forward(self, X):
@@ -55,6 +69,11 @@ class IdentityBlock(nn.Module):
 
         out = self.conv2(out)
         out = self.batchnorm2(out)
+
+        if self.bottleneck: 
+            out = self.relu(out)
+            out = self.conv3(out)
+            out = self.batchnorm3(out) 
 
         out += identity
         out = self.relu(out)
