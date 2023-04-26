@@ -6,9 +6,8 @@ There are many like it on the internet, but this one is MINE.
 
 What has been done 
 
-- ResNet-34 implemented
+- ResNet-18/34/50/101/152 implemented
 
-What needs to be done
+## How to run 
 
-- ResNet-50, 102 etc
-- The above requires retooling the identity block (it currently only caters to ResNet-34)
+To use 18 and 34 variants, utilise the `resnet_34_below.py`. To use the 50/101/152 variants, call in the `resnet_50_above.py`
