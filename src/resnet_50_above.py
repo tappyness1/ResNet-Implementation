@@ -2,10 +2,11 @@ from src.resnet_utils import IdentityBlock
 from torch.nn import Conv2d, ReLU, MaxPool2d, BatchNorm2d, AdaptiveAvgPool2d, Linear, Softmax
 from src.resnet_utils import IdentityBlock, forward_layer
 import torch.nn as nn
+import torch
 
 class ResNet50Above(nn.Module):
 
-    def __init__(self, num_classes, variant = "ResNet50"):
+    def __init__(self, num_classes,in_channels = 3, variant = "ResNet50"):
         
         super(ResNet50Above, self).__init__()
         self.relu = ReLU()
@@ -23,7 +24,7 @@ class ResNet50Above(nn.Module):
             raise Exception("Choose either 'ResNet50', 'ResNet101' or 'ResNet152'.")
 
         # conv1
-        self.conv1 = Conv2d(in_channels = 3, out_channels=64, kernel_size=7, stride = 2)
+        self.conv1 = Conv2d(in_channels = in_channels, out_channels=64, kernel_size=7, stride = 2)
         self.conv1_bn = BatchNorm2d(num_features=64)
 
         # conv2_x

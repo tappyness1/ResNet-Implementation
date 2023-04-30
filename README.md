@@ -7,6 +7,8 @@ There are many like it on the internet, but this one is MINE.
 What has been done 
 
 - ResNet-18/34/50/101/152 implemented
+- built training pipeline
+- built validation pipeline (saves confusion matrix into val_results folder)
 
 ## How to run 
 

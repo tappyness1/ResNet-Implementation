@@ -2,6 +2,7 @@ from src.resnet_utils import IdentityBlock
 from torch.nn import Conv2d, ReLU, MaxPool2d, BatchNorm2d, AdaptiveAvgPool2d, Linear, Softmax
 from src.resnet_utils import IdentityBlock, forward_layer
 import torch.nn as nn
+import torch
 
 class ResNet34Below(nn.Module):
 
