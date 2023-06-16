@@ -11,8 +11,8 @@ def train(epochs, train_set, in_channels = 3, num_classes = 10, save_model_path 
 
     loss_function = nn.CrossEntropyLoss()
     # network = ResNet50Above(in_channels = in_channels, num_classes = num_classes)
-    network = ResNet34(in_channels = in_channels, num_classes = num_classes)
-    # summary(network, (in_channels,224,224))
+    network = ResNet50Above(in_channels = in_channels, num_classes = num_classes)
+    summary(network, (in_channels,224,224))
     optimizer = optim.SGD(network.parameters(), lr=3e-4, weight_decay=5e-5)
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -56,10 +56,10 @@ if __name__ == "__main__":
     torch.manual_seed(42)
 
     from src.dataset import get_load_data
-    train_set, test_set = get_load_data(dataset = "Flowers102")
-    train(epochs = 3, train_set = train_set, in_channels = 3, num_classes = 102)
+    # train_set, test_set = get_load_data(root = "../data", dataset = "Flowers102")
+    # train(epochs = 3, train_set = train_set, in_channels = 3, num_classes = 102)
 
 
-    # train_set, test_set = get_load_data(dataset = "FashionMNIST")
-    # train(epochs = 1, train_set = train_set, in_channels = 1, num_classes = 10)
+    train_set, test_set = get_load_data(root = "../data", dataset = "FashionMNIST")
+    train(epochs = 1, train_set = train_set, in_channels = 1, num_classes = 10)
     

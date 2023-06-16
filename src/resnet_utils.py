@@ -48,9 +48,9 @@ class IdentityBlock(nn.Module):
 
     def forward(self, X):
         
-        identity = X
+        identity = torch.clone(X)
         # to do - downsample when we expect the output channel here to be more than the identity
-        # emply 1x1 conv layer with batchnorm
+        # employ 1x1 conv layer with batchnorm
 
         if identity.shape[1] != self.last_filter_channel:
             if self.conv:
